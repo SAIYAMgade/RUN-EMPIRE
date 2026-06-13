@@ -1,0 +1,11 @@
+{
+  "name": "terrirun-monorepo",
+  "version": "1.0.0",
+  "description": "Delhi NCR Real-Time Territory Control Game Monorepo",
+  "scripts": {
+    "install-all": "npm install --prefix backend && npm install --prefix frontend --legacy-peer-deps",
+    "seed": "npm run seed --prefix backend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend"
+  }
+}
