@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: run-empire-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Will prompt you for the Neon Postgres URL
+      - key: REDIS_URL
+        sync: false # Will prompt you for the Aiven Valkey URL
+      - key: JWT_SECRET
+        generateValue: true # Automatically generates a secure random secret key
+      - key: FRONTEND_URL
+        sync: false # Will prompt you for the Vercel frontend URL
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
