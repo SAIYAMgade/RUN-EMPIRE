@@ -6,6 +6,7 @@ import { claimTile, claimPolygon } from '../services/tileService';
 import { getTileSnapshot } from '../services/cacheService';
 import { getLeaderboard } from '../services/leaderboardService';
 import type { ServerToClientEvents, ClientToServerEvents } from '../types';
+import { isOriginAllowed } from '../utils/cors';
 
 let ioInstance: Server<ClientToServerEvents, ServerToClientEvents> | null = null;
 
@@ -20,7 +21,13 @@ export async function createSocketServer(httpServer: any) {
   
   const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
     cors: {
-      origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+      origin: (origin, callback) => {
+        if (isOriginAllowed(origin)) {
+          callback(null, true);
+        } else {
+          callback(null, false);
+        }
+      },
       credentials: true,
     },
     pingTimeout:   20000,

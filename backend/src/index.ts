@@ -9,6 +9,7 @@ import tilesRouter from './routes/tiles';
 import leaderboardRouter from './routes/leaderboard';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
+import { isOriginAllowed } from './utils/cors';
 
 dotenv.config();
 
@@ -19,7 +20,13 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkey123!';
 
 // Setup CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (isOriginAllowed(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+    }
+  },
   credentials: true,
 }));
 
